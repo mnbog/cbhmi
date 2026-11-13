@@ -44,7 +44,7 @@ https://nowtech.pollub.pl/dla-pracownika
 ** Struktura wiadomości w systemie node-red - definiowanie wiadomości jako obiektów JavaScript;
 1. Przedstawienie typów pól komunikatów;
 2. Konwersja między formatem JSON a obiektami JavaScript;
-** Zapis komunikatów w pamięci środowiska: pamięci/obszaru: flow, global, local;
+** Zapis komunikatów w pamięci środowiska: pamięci/obszaru: flow, global, local - demonstracja obsługi pamięci - schematy i rysunki;
 ** Budowa diagramów i przesyłanie komunikatów - elementarne bloki modułu 'common';
 1. Przykład cyklicznego wyzwalania komunikatów;
 2. Zadania - generowanie dokumentu JSON, ciągu znaków, liczby, obiektu JSON, wykorzystanie wyrażenia JSONata (funkcja $random()) - bloki: inject, debug;
@@ -83,7 +83,10 @@ https://nowtech.pollub.pl/dla-pracownika
 *** Pobieranie danych - Formularz/Form
 *** Wskaźniki wartości - wyświetlacze/Gauge
 *** Wykresy podstawowe/Chart
-*** Wykresy i zaawansowane przetwarzanie danych
+*** Wykresy i zaawansowane przetwarzanie danych - przygotowanie danych;
 *** Komunikaty
+** Zadania do samodzielnego wykonania:
+1. ...
+
 
 * 05 Wymiana danych z urządzeniami sieci przemysłowej - standard OPC UA;
