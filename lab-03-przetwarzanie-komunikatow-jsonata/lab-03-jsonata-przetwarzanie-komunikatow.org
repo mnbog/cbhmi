@@ -1,0 +1,362 @@
+#+title: Lab 03 JSONata
+
+* 01 Elementarne zasady zapisu rekordów w formacie JSON
+
+JSON (JavaScript Object Notation) to tekstowy format zapisu i wymiany danych.
+
+1. Rekord informacji zapisuje się w nawiasach:
+   - klamrowych: { ... }
+   - prostokątnych: [ ... ] lub {"klucz": [...]} lub nawet {"":[...]};
+2. Nazwa pola rekordu, inaczej klucz, zapisuje się tekstem ujętym w podwójnych cudzysłowach;
+3. Poprawnymi wartościami pól rekordów są:
+
+   Typ                  Przykład
+   -----------------------------------------------------------------------------
+   Tekst             "czujnik", "2026-11-07"   # datę zapisuje się jako tekst
+   Liczba            42, 21.5, -3              # Jako sep. używa się znaku '.'
+   Wartość logiczna  true, false               # pisane tylko małą literą !!!
+   Pusta wartość     null                      # null oznacza brak danych
+   Obiekt            {"miasto": "Warszawa"}   # obiekty mogą zawierać inne ob.
+   Tablica           [1, 2, 3]                 # tabele mogą zawierać dowolne ob.
+
+4. Pola oddziela się przecinkiem, ale ostatnie pole nie jest nim zakończone;
+
+** Przykład zapisu obiektu JSON
+
+{
+  "imie": "Ala",
+  "wiek": 28,
+  "aktywny": true,
+  "zainteresowania": ["muzyka", "podróże"]
+  "adres": {
+        "ulica": "Rubinowa",
+        "numer domu": 3,
+        "mieszkanie": null,
+        "kod pocztowy": 20-575
+        "aktualny": true
+        }
+}
+
+** Zadanie-01 Definicja rekordu opisującego dane o studencie
+
+Utwórz plik student.json. Zapisz w nim jeden obiekt zawierający:
+
+- imię;
+- nazwisko;
+- nr albumu;
+- rok studiów;
+- aktywny;
+- datę rozpoczęcia studiów;
+- datę zakończenia studiów;
+
+Wpisz przykładowe dane studenta dobierając właściwe typy danych pól rekordów.
+
+*** Rozwiązanie
+
+{
+    "name": "Marcin",
+    "second name": "Bogucki",
+    "student id": "s102356",
+    "year of study": 4,
+    "active": true,
+    "start date": "2001-12-28",
+    "finish date": null
+}
+
+* 02 Reprezentacja obiektu JSON w JSONata
+
+Dyskutując poniższą składnię odnosimy się do obiektu wygenerowanego przez moduł OpenWeatherMap w ostatnim z wykonanych zadań praktycznych.
+
+1. Cały dokument JSON jest reprezentowany jako znak '$$'; $$ - zwróci cały obiekt;
+2. Aktualnie przetwarzany obiekt jest reprezentowany jako znak '$';
+3. Jeżeli obiekt składa się z tablicy, do elementów tablicy odnosimy się przez operator [] np. $[5] zwróci szósty obiekt tablicy;
+4. Do kolejnych pól obiektów odwołujemy się po ich kluczu (bez używania podwójnych cudzysłowów), ale poprzedzonych znakiem '.', np. $[5].weather zwróci obiekt:
+
+   #+begin_src json
+    [
+      {
+        "id": 500,
+        "main": "Rain",
+        "description": "słabe opady deszczu",
+        "icon": "10d"
+      }
+    ]
+#+end_src
+
+* 03 JSONata - wyrażenie obliczeniowe, filtrujące, przekształcające i generujące dane;
+
+JSONata, to jest to język wyrażeń wykorzystywany do odczytywania i przekształcania danych zapianych w formacie JSON. Zastosowania:
+
+- służy do wyszukiwania i przekształcania danych JSON;
+- pozwala wybierać pola, filtrować tablice i wykonywać obliczenia agregujące dane numeryczne;
+- umożliwia tworzenie nowej struktury JSON z danych wejściowych;
+- ma zwięzłą składnię oraz wiele wbudowanych funkcji operujących na danych;
+- jest szczególnie użyteczny do przekształcania wiadomości w systemie node-red (zamiast jawnego definiowania funkcji w systemie node-red);
+- ma wiele implementacji w popularnych językach programowania (np. https://github.com/rayokota/jsonata-python)
+
+Przykłady - patrz: https://try.jsonata.org/ oraz https://docs.jsonata.org/overview
+
+** Zadanie-02 Wygenerowanie danych o pogodzie i ich prezentacja w edytorze:try.jsonata.org
+
+Pobierz dane o prognozie pogody na pięć kolejnych dni i wprowadź je do edytora na stronie internetowej:
+
+https://try.jsonata.org/
+
+... oraz do pliku: zadanie-02-5-days-forecast.json, a następnie skopiuj w wprowadź tak zdefiniowany obiekt do bloku 'Inject' i wypisz jego wartość w bloku 'Debug'.
+
+
+** Komentarz do języka wyrażeń JSONata
+
+W Node-RED, używając języka JSONata, można napisać blok kodu zawierający wiele instrukcji, zmienne i obliczenia.
+
+Do utworzenia bloku używa się nawiasów okrągłych ( ), a poszczególne instrukcje oddziela się średnikami ;.
+
+*** Podstawowy blok kodu
+
+(
+    $a := 10;
+    $b := 20;
+    $wynik := $a + $b;
+    $wynik
+)
+
+Wynik: 30
+
+Zasady:
+- ( ) – początek i koniec bloku.
+- := – przypisanie wartości do zmiennej.
+- ; – oddzielenie instrukcji.
+- Ostatnie wyrażenie – wartość zwracana przez cały blok.
+
+Przykład w Node-RED
+
+Załóżmy, że msg.payload zawiera:
+
+{
+    "temperatura": 25,
+    "wilgotnosc": 60
+}
+
+W węźle Change ustaw typ wartości na expression (JSONata) i wpisz:
+
+(
+    $temp := payload.temperatura;
+    $wilg := payload.wilgotnosc;
+
+    $status := $temp > 30 ? "GORACO" : "OK";
+
+    {
+        "temperatura": $temp,
+        "wilgotnosc": $wilg,
+        "status": $status
+    }
+)
+
+Wynik:
+
+{
+    "temperatura": 25,
+    "wilgotnosc": 60,
+    "status": "OK"
+}
+
+***  Definiowanie własnych funkcji w bloku
+
+Możesz również tworzyć funkcje:
+
+(
+    $dodaj := function($a, $b) {
+        $a + $b
+    };
+
+    $wynik := $dodaj(10, 20);
+
+    $wynik
+)
+
+Wynik: 30
+
+***  Warunki w bloku
+
+JSONata nie posiada klasycznej instrukcji if z JavaScript. Zamiast tego używa operatora ? :.
+
+(
+    $x := payload;
+
+    $wynik := $x > 100 ? "DUZO" :
+              $x > 50  ? "SREDNIO" :
+                         "MALO";
+
+    $wynik
+)
+
+***  Ważne ograniczenia
+
+JSONata nie jest JavaScriptem, dlatego:
+
+JavaScript: { ... } – blok kodu
+JSONata: ( ... ) – blok wyrażeń
+
+JavaScript: let x = 10
+JSONata: $x := 10
+
+JavaScript: if / else
+JSONata: ? :
+
+JavaScript: function(a) { ... }
+JSONata: function($a) { ... }
+
+JavaScript: return x
+JSONata: Ostatnie wyrażenie
+
+JavaScript: for, while
+JSONata: $map(), $filter(), $reduce()
+
+W Node-RED można umieścić cały program JSONata w jednym polu expression w węźle Change. Nie jest konieczne używanie węzła Function, jeśli program wymaga jedynie transformacji danych, wykonywania elementarnych obliczeń lub sprawdzania warunków.
+
+* 04 Pomocne uwagi dotyczące przetwarzania danych
+
+** Filtracja danych
+
+Jeżeli obiekty JSON zawierają powtarzającą się strukturę danych, możliwe jest ich filtrowanie, a następnie agregacja, np. main.temp - zgrupuje wszystkie wartości numeryczne z pól 'temp' z obiektów 'main'. Po tej selekcji możliwe jest wykonanie obliczeń z wykorzystaniem funkcji JSONata.
+
+$count(main.temp)                   # obliczy liczbę wartości numerycznych
+$sum(main.temp)/$count(main.temp)   # obliczy średnią;
+
+Selekcja obiektu po wartości jednego z pól - do elementów tablicy można odwołać się na kilka sposobów:
+
+$[numer elementu] lub ...
+$[obiekt.klucz = wartość szukana parametru odpowiadającego kluczowi]
+
+** Odwołanie do kontekstu wiadomości i całego dokumentu
+
+W JSONata zmienne zaczynają się od '$', a wartość przypisuje się operatorem ':='.
+
+Przykład w Node-RED - gdy dane są w msg.payload
+
+(
+  $temperatura := payload.temperature;
+  $temperatura > 25 ? "ciepło" : "chłodno"
+)
+
+Nawiasy tworzą blok; po przypisaniu zmienna jest dostępna w dalszej części tego bloku. Istnieją też zmienne wbudowane: $ oznacza bieżący kontekst, a $$ — korzeń danych wejściowych.
+
+W tym przykładzie $temperatura jest zdefiniowana tylko i wyłącznie na potrzeby bloku obliczeń.
+
+** Niektóre z użytecznych funkcji JSONata - prezentacja - patrz - strona projektu https://docs.jsonata.org/overview.html
+
+* 05 Funkcja 'filter' - prezentacja - https://docs.jsonata.org/higher-order-functions
+
+Sygnatura $filter(array, function), gdzie: function(value [, index [, array]])
+
+Zwraca tablicę pierwotnych elementów, które spełniają warunek opisany przez definicję funkcji 'function':
+
+function(value [, index [, array]]), gdzie:
+
+value - wartość przekazywanego elementu (od 0 do n-1);
+index - wartość bieżącego elementu;
+array - oryginalna tablica elementów;
+
+Argumenty ujęte w nawiasy kwadratowe są opcjonalne.
+
+przykład:
+
+$filter($, function($v) { $v.main.temp > 10})
+
+$filter(Account.Order.Product, function($v, $i, $a) {
+  $v.Price > $average($a.Price)
+})
+
+* 06 Funkcja 'map' - prezentacja - https://docs.jsonata.org/higher-order-functions
+
+Sygnatura: $map(array, function)
+
+Zwraca tablicę wartości, której każdy z elementów pierwotnej tablicy 'array' jest przekształcony/obliczany na podstawie definicji funkcji:
+
+function(value [, index [, array]]), gdzie:
+
+value - wartość przekazywanego elementu (od 0 do n-1);
+index - wartość bieżącego elementu;
+array - oryginalna tablica elementów;
+
+Argumenty ujęte w nawiasy kwadratowe są opcjonalne.
+
+Przykłady:
+
+$map([1,2,3], function($v) { $v * 2 })
+wynik: [ 2, 4, 6 ]
+
+$map([2], function($v) { $v * 2 })
+wynik: [4]
+
+"Email": {
+        "address": [
+                fred.smith@my-work.com",
+                fsmith@my-work.com",
+                freddy@my-social.com",
+                frederic.smith@very-serious.com"
+        ]
+}
+
+$map(Email.address, function($v, $i, $a) {
+   'Item ' & ($i+1) & ' of ' & $count($a) & ': ' & $v
+})
+wynik:
+[
+  "Item 1 of 4: fred.smith@my-work.com",
+  "Item 2 of 4: fsmith@my-work.com",
+  "Item 3 of 4: freddy@my-social.com",
+  "Item 4 of 4: frederic.smith@very-serious.com"
+]
+
+* 07 Operacje na obiektach reprezentujących czas - prezentacja - https://docs.jsonata.org/date-time
+* 08 Generowanie obiektów JSON w node-red - patrz: funkcja map i prezentacja (s. 54)
+* 09 Zadania do samodzielnego rozwiązania
+
+** Zadanie S01
+
+Napisać program, który po aktywacji Injecta wyświetli informacje o aktualnej pogodzie w miejscowości, w której odbywają się zajęcia. Ma powstać formularz z opisem pogody (parametr detail), temperaturą w stopniach Celsjusza (parametr tempc) i nazwą miejscowości Np. Dzisiaj w nazwa_miejscowości jest opis_pogody. Temperatura wynosi temperatura. Zweryfikować informacje ze stanem faktycznym.
+
+** Zadanie S02
+
+Napisać program, który pobierze dane z openweathermap i wyświetli godzinę wschodu oraz zachodu słońca (sunrise, sunset) obecnego dnia. Wykorzystać formularz np. Dziś Słońce wzeszło o godzina1 i zajdzie o godzina2. Człowiek nie maszyna, czas musi być czytelny więc do funkcji $fromMillis() trzeba dodać drugi argument: ,'[H01]:[m01]:[s01]'. Wykona on konwersje z formatu daty na godzinę. Stąd mamy,
+
+$fromMillis(jakiś_czas, '[H01]:[m01]:[s01]')
+
+** Zadanie S03
+
+Wykonać licznik weekendu. Program ma wyświetlać komunikat co minutę z czasem w minutach do najbliższego weekendu tzn. piątek godzina 15:00. W weekend program ma wyświetlać komunikat z czasem jaki pozostał do wykorzystania weekendu tzn. do poniedziałku 6:00. Np. „Zostało czas min do weekendu!”, „Weekend! Czas na odpoczynek :D Zostało czas min!”
+
+Wskazówka: $toMillis("2022-04-22T15:00:00.000Z") zwraca czas w milisekundach. Pamiętać o strefach czasowych i zmianach czasu i że 1h to 60min, a 1min to 60s, a 1s to 1000ms. Można wykorzystać timestamp z injecta, ale można też użyć $now(), która zwraca aktualny czas.
+
+** Zadanie S04
+
+Napisać program, który pobierze dane prognozowane na 5 dni z openweathermap i obliczy wartość średnią z temperatur temp. Następnie znajdzie wszystkie temperatury temp, które mają wartość większą, odejmie od nich 10 i wyświetli je za pomocą debug. Nie trzeba używać template.
+
+** Zadanie S05
+
+Napisać program, który będzie analizował dane dostarczane injectem:
+
+msg.payload = J: []
+msg.payload[0].value = J: $random()
+msg.payload[1].value = J: $random()
+msg.payload[2].value = J: $random()
+
+msg.payload[0].max = 0.8
+msg.payload[1].max = 0.8
+msg.payload[2].max = 0.8
+
+msg.payload[0].min = 0.2
+msg.payload[1].min = 0.2
+msg.payload[2].min = 0.2
+
+Program ma zliczać ile wartości value przekroczyło zakres min lub max im odpowiadających. Dla wartości payload[0].value minimum to payload[0].min, maksimum to payload[0].max. Do zliczania użyć funkcji $count(), która zlicza elementy. Warunki filtrowania można łączyć np. dla lub: wartość < 4 or wartosc >7 , dla i: wartość < 4 and wartosc >7.
+
+* Komentarze do niektórych slajdów prezentacji
+
+slajd 53 - komentarz: warunek jest sprawdzany dla każdego obiektu; W tym miejscu main.temp oznacza temperaturę bieżącego obiektu, więc $min(main.temp) daje tę samą wartość. Porównujesz temperaturę z nią samą — dlatego przechodzą wszystkie obiekty.
+
+(
+    $min_temp := $min(main.temp);
+    $[main.temp = $min_temp]
+)

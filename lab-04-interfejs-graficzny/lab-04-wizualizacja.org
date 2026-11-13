@@ -1,0 +1,18 @@
+#+title: Lab 04 Wizualizacja
+
+* Panel wizualizacji DashBoard - przygotowanie do wizualizacji
+
+* Bloki/elementy funkcjonale wizualizacji
+
+** Przycisk/Button - paleta przycisków
+** Lampka led
+** Rozmieszczenie elementów
+** Przełącznik/Switch
+** Lista wybory/Drop Down Menu
+** Prezentacja wartości lub tekstu
+*** Stosowanie bloku Template
+** Pobieranie danych - Formularz/Form
+** Wskaźniki wartości - wyświetlacze/Gauge
+** Wykresy podstawowe/Chart
+** Wykresy i zaawansowane przetwarzanie danych
+** Komunikaty

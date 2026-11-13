@@ -1,0 +1,61 @@
+#+title: Lab 02 (A) Instalowanie Dodatkowych Modułów Oprogramowania
+
+* 01 Blok "inject" - uzupełnienie - wyzwalanie wiadomości po ustalonym czasie (s.31)
+
+Blok 'inject' może generować wiadomość po określonym czasie:
+
+opcja:   "Inject once after [...] seconds, then"
+oraz:    "Repeat [...] every [...]"
+
+** Zadane-01 - cykliczne generowanie liczb losowych
+
+Utwórz diagram generujący na wejściu liczbę losową z przedziału (0, 99) co sekundę, począwszy od 5s działania programu. Wartość losowa ma być przekazywana na wyjście 'Debug', o ile jest większa od 50.
+
+** Zadanie-02 - ocena wartości liczby losowej
+
+Utwórz diagram generujący na wejściu liczbę losową z przedziału (0, 99) co sekundę. Na wyjściu - obiekt 'Debug' - ma pojawić się komunikat:
+
+- "za mało" - o ile wartość jest mniejsza od 50;
+- "w sam raz" - o ile wartość będzie należeć do przedziału: (50, 80);
+- "za dużo" - o ile wartość będzie większa od 80;
+
+* 02 Import i eksport programów
+
+- Main/Import programu/flow  - ctrl-i (s. 16)
+- Main/Export programu/flow  - ctrl-e (s. 13)
+
+** Przykład
+
+1. Zapisz/Wyeksportuj do pliku uprzednio utworzone programy: zadanie-01, zadanie-02;
+2. Utwórz nowy program;
+3. Zamknij obydwa programy: zadanie-01, zadanie-02;
+4. Zaimportuj wyłącznie zadanie-02;
+
+* 03 Instalacja modułów oprogramowania NodeRed
+
+1. Zarządzanie paletą modułów - Main/Manage Palette;
+2. Wybór oprogramowania (wyszukanie);
+3. Instalacja: 'Install';
+4. Po zainstalowaniu, bloki modułów są dostępne w bibliotece - 'Palette';
+
+** Przykład instalacji modułu 'OpenWeatherMap' - konfiguracja mosułu (s.11)
+
+Zainstaluj moduł oprogramowania 'openweather';
+Zarejestruj się na stronie internetowej 'OpenWeather'; - komunikat dla studentów !!!
+Klucz API do modułu pobrany po rejestracji na stronie https://openweathermap.org/:
+API-KEY: [wstaw własny klucz]
+
+** Zadanie 03 - Wykorzystanie modułu 'OpenWeatherMap' do budowy prostej aplikacji
+
+Zbuduj diagram generujący na komunikaty o aktualnej pogodzie w mieście Lublin. Komunikaty mają być generowane po każdej aktywacji wejściu ('Inject'), a rekordy powinny pojawiać na wyjściu (Debug);
+
+* 04 Import programów bez wymaganych modułów
+
+** Przykład dydaktyczny
+
+1. Usunąć program z rozwiązaniem zadania-03;
+2. Wykonać wdrożenie - 'Deploy';
+3. Uruchomić ponowie środowisko node-red - 'Restart Flows';
+4. Usunąć moduł 'OpenWeatherMap';
+5. Zaimportować rozwiązanie zadania: 'zadanie-03';
+6. Odinstalowany blok jest dostępny i będzie funkcjonować po ponownej instalacji brakującego modułu;

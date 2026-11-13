@@ -1,0 +1,180 @@
+[
+    {
+        "id": "6f7b1a7db5f9c93a",
+        "type": "tab",
+        "label": "zadanie-02",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "398c55edda807c09",
+        "type": "inject",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "Liczna losowa",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "$random()*100",
+        "payloadType": "jsonata",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "8e825da05a59987f"
+            ]
+        ]
+    },
+    {
+        "id": "52707d37a4634a09",
+        "type": "debug",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "wynik",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "status",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8e825da05a59987f",
+        "type": "switch",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "num"
+            },
+            {
+                "t": "btwn",
+                "v": "50",
+                "vt": "num",
+                "v2": "70",
+                "v2t": "num"
+            },
+            {
+                "t": "gt",
+                "v": "70",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "24998d39b625015d"
+            ],
+            [
+                "defb12be8e077d29"
+            ],
+            [
+                "6e707a70531ce0af"
+            ]
+        ]
+    },
+    {
+        "id": "24998d39b625015d",
+        "type": "change",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "za mało",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 100,
+        "wires": [
+            [
+                "52707d37a4634a09"
+            ]
+        ]
+    },
+    {
+        "id": "defb12be8e077d29",
+        "type": "change",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "w sam raz",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "52707d37a4634a09"
+            ]
+        ]
+    },
+    {
+        "id": "6e707a70531ce0af",
+        "type": "change",
+        "z": "6f7b1a7db5f9c93a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "za dużo",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "52707d37a4634a09"
+            ]
+        ]
+    }
+]

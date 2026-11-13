@@ -1,0 +1,82 @@
+[
+    {
+        "id": "3364de88dfbb45cc",
+        "type": "tab",
+        "label": "zadanie-02-prognoza-na-5-dni",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dee7578e22ced9c9",
+        "type": "openweathermap",
+        "z": "3364de88dfbb45cc",
+        "name": "Prognoza pogody dla Lublina",
+        "wtype": "forecast",
+        "lon": "",
+        "lat": "",
+        "city": "Lublin",
+        "country": "Poland",
+        "language": "pl",
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "dcc69306ae7ae7ed"
+            ]
+        ]
+    },
+    {
+        "id": "dece2ba5c0e85c29",
+        "type": "inject",
+        "z": "3364de88dfbb45cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "dee7578e22ced9c9"
+            ]
+        ]
+    },
+    {
+        "id": "dcc69306ae7ae7ed",
+        "type": "debug",
+        "z": "3364de88dfbb45cc",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "203d4894eefdfc66",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-openweathermap": "1.0.1"
+        }
+    }
+]

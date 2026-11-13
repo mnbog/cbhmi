@@ -1,0 +1,102 @@
+#+title: Lab-01-Wprowadzenie-do-NodeRED
+
+
+* Instalacja środowiska Node-Red
+
+$ npm install –g --unsafe-perm node-red && npm install node-red-contrib-ui-led && npm install node-red-contrib-opcua && npm install node-red-dashboard
+
+Powyższa komenda instaluje Node-Red, bibliotekę z lampką LED, bibliotekę do komunikacji OPCUA i bibliotekę do wizualizacji.
+
+1. Pobierz Node.js
+
+   Pobierz wersję Node.js 24.x LTS, zalecaną obecnie przez Node-RED. Uruchom instalator .msi i przejdź przez instalację.
+
+2. Sprawdź instalację
+
+   Otwórz PowerShell lub CMD i wpisz:
+
+   $ node -v
+   $ npm -v
+
+   Jeśli pojawią się numery wersji, Node.js i npm są zainstalowane poprawnie.
+
+   Dodać zmienną środowiskową PATH;
+
+3. Zainstaluj Node-RED
+
+   W terminalu wpisz:
+
+   $ npm install -g node-red
+
+   Polecenie pobierze i zainstaluje Node-RED.
+
+* Uruchomienie systemu
+
+1. Lokalizacja pakietu node-red
+
+   $ cd ~.local/bin/node-red
+   $ node-red
+
+2. Uruchomienie przeglądarki pod adresem
+
+   http://127.0.0.1:1880/
+
+* Zatrzymanie programu
+
+Dwukrotne kliknięcie na zakładkę 'flow' i wybranie 'disable', 'Deploy' oraz 'Done';
+
+... lub ...
+
+Wybór okna "Explorer", wybór 'flow' i zatrzymanie/schowanie/zablokowanie;
+
+
+* Lab-01-Wprowadzenie-do-NodeRED
+
+** Zadanie 01 - Elementarny przykład
+
+Napisać program, który po kliknięciu przycisku obok obiektu typu 'inject' wyśle wiadomość z parametrem topic o wartości „Pierwsze zadanie”. Bloczek debug ma wyświetlać tylko jeden parametr, topic.
+
+** Zadanie 02 - Generowanie wartości losowej
+
+Napisać program, który po kliknięciu przycisku obok obiektu 'injecta' wyśle wiadomość z parametrem 'zmiennaLosowa' o wartości losowej. (typ parametru jako expression, a wartość $random()*100 ). Następnie przy pomocy funkcji switch przepuszczać tylko te wiadomości, które mają wartość parametru zmiennaLosowa > 50. Wartość wyświetlać bloczkiem debug ustawionym na wyświetlanie tylko parametru zmiennaLosowa.
+
+** Zadanie 03 - Blok swich
+
+Napisać program, który po kliknięciu przycisku obok injecta wyśle wiadomość z parametrem zmiennaLosowa o wartości losowej. (typ parametru jako expression, wartość $random()*100). Jeżeli parametr zmiennaLosowa < 50 to do wiadomości należy dodad parametr status o wartości „za mało” wykorzystując bloczek change. Jeżeli zmiennaLosowa >=50 i <70, dodać parametr status o wartości „w sam raz”. Jeżeli zmiennaLosowa >= 70, dodad parametr status o wartości „za dużo”. Niezależnie od wyniku, wiadomości mają być wyświetlane w całości za pomocą jednego bloku
+debug.
+
+** Zadanie 04 - Komunikat o stanie zbiornika
+
+Wykonać program do tworzenia komunikatów stanu napełnienia zbiornika. Zbiornik ma pojemność 200L. Układ mierzący ilość cieczy w zbiorniku przekazuje tę wartość do Node-Reda. (symulować bloczkiem inject i parametrem payload o zakresie wartości od 0 do 200) W komunikacie ma być informacja o ilości cieczy w zbiorniku, o stanie procentowym zapełnienia zbiornika i o pozostałym miejscu w zbiorniku. Komunikaty mają być wyświetlane bloczkiem debug.
+
+Przykład:
+W zbiorniku znajduje się X L cieczy.
+Jest on wykorzystany w Y %.
+Pozostało Z L wolnego miejsca.,
+Gdzie:
+X – ilośd cieczy w L,
+Y – stosunek ilości cieczy w zbiorniku do pojemności zbiornika,
+Negacja logiczna
+Z – ilośd pozostałego wolnego miejsca w L.
+
+** Zadanie 05 - Alert pogodowy
+
+Do środowiska są dostarczane dane pogodowe w postaci wiadomości z parametrami: temperatura, ciśnienie, wilgotność. Zakresy wartości: temperatura od -10 do 40, ciśnienie od 800 do 2000, wilgotność od 0 do 100. Wykonać środowisko do tworzenia alertów pogodowych zależnych od poszczególnych parametrów.
+
+Jeżeli temperatura < 10 to komunikat „Jest tylko X stopni! Ubierz się ciepło”,
+Jeżeli temperatura >30 to komunikat „Jest aż X stopni! Weź coś do picia”
+Jeżeli ciśnienie <1000mbar to komunikat „Dziś niskie ciśnienie ☹”
+Jeżeli ciśnienie >1500mbar to komunikat „Ciśnienie nie jest niskie, a czujnik chyba się popsuł”,
+Jeżeli wilgotność > 80% to komunikat „Weź parasol, duża szansa na deszcz”.
+
+** Zadanie 06 - Modyfikacja alertu
+
+Zmodyfikować zadanie 5 w taki sposób, żeby utworzyć jeden alert pogodowy mogący zawierać informacje o wszystkich parametrach. Na końcu programu tylko jedna wiadomość. Uwaga: Nie wykorzystywać żadnego rodzaju pamięci.
+
+** Zadanie 07 -
+
+Do programu są dostarczane informacje o jakości składanych telefonów. Każda wiadomość zawiera nazwę telefonu: topic = S2minus, K1i, YouPhone37 i jakość od 0 do 100: payload. Program ma zadanie zliczać wadliwe telefony i zapisywać je do pamięci global do zmiennych badS2minus, badK1i i badYouPhone37, ma też zliczać telefony sprawne i zapisywać do pamięci global goodS2minus, goodK1i i goodYouPhone37. Telefon uznany za wadliwy ma jakośd < 90. Dla każdego telefonu ma powstawać raport informujący ile telefonów o danej nazwie wyprodukowano, ile z nich było wadliwych i ile było sprawnych.
+
+Uwaga 1: żeby móc odczytywać parametr z pamięci global, trzeba najpierw go tam umieścić np. poprzez jednorazowe wstrzyknięcie po uruchomieniu programu.
+
+Uwaga 2: Typ parametru expression NIE pozwala na bezpośrednie użycie zmiennej z pamięci globalnej. Trzeba to zrobić pośrednio np. poprzez dodatkowy parametr.
