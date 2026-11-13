@@ -1,0 +1,89 @@
+#+title: Cb-HMI-Agenda
+
+* Treści formalne, dokumenty, założenia projektu;
+
+** Sylabus - laboratorium;
+
+*** L1 Konfigurowanie urządzenia HMI z bezpośrednim i wyłącznym dostępem do procesu, tworzenie prostej aplikacji, badanie czasu reakcji, zasada fail-safe - ok;
+*** L2 Konfiguracja urządzenia HMI z dostępem poprzez sieć przemysłową - ok;
+*** L3 Programowanie i testowanie aplikacji do sterowania procesem o zdarzeniach dyskretnych z możliwością wyboru wariantów - ok;
+*** L4 Projektowanie aplikacji HMI do pracy w sieci z równoległym dostępem do procesu z wielu urządzeń, testowanie procedur bezpieczeństwa - ok;
+*** L5 Programowanie aplikacji HMI na urządzenia przenośne z dostępem zdalnym poprzez sieć Internet, testowanie scenariuszy awaryjnych i serwisowych - ok;
+
+** Sylabus - cele przedmiotu;
+
+1. C1 - Przekazanie wiedzy na temat konstrukcji i sposobu działania przemysłowych urządzeń operatorskich i serwisowych typu HMI (Human-Machine Interface) oraz rozwiązań wykorzystujących uniwersalne urządzenia do prezentacji danych (komputery, tablety)
+2. C2 - Nabycie umiejętności konfigurowania i programowania urządzeń HMI do pracy w sieciach przemysłowych z uwzględnieniem zagadnień bezpieczeństwa procesu technologicznego i przesyłu danych
+3. C3 - Nabycie umiejętności projektowania struktury praw dostępu oraz procedur awaryjnych
+
+** Materiały do opracowania skryptów - formatki i logotypy;
+
+https://nowtech.pollub.pl/dla-pracownika
+
+** TODO Zapoznanie się z modelami laboratorium;
+
+** Tematy laboratoriów (30 godz. );
+
+* 01 Wprowadzenie do systemu node-red;
+
+** Instalacja i konfiguracja oprogramowania node-red;
+** Dyskusja posługiwania się środowiskiem node-red do wdrażania logiki i prezentacji HMI - podstawowe terminy wykorzystywane w środowisku;
+** Podstawowe  moduły środowiska - 'common', 'function', 'network', 'sequence', 'parser', 'storage', 'dashboard', ('OPCUA', 'dashboard' - opcjonalnie - należy zainstalować, ew. późniejsze lab.);
+** Definiowanie wiadomości;
+1. Podstawowe źródła komunikatów w systemie node-red;
+2. Przykład(-y) definicji komunikatów (inject, button/list - panel operatora, dane ze sterownika - klient OPC UA, usługi sieciowe, zdarzenia wewnętrzne 'status', 'catch');
+3. Przykład elementarnego programu (przepływu - inject + debug);
+** Pomoc systemu - opis elementów i ich parametryzacja;
+** Dodawanie nowych modułów oprogramowania. Usuwanie modułów oprogramowania;
+** Import i export programów (przepływów/flow)
+** Zadania do samodzielnego wykonania:
+1. ...
+
+* 02 Konstrukcja diagramów przepływów komunikatów w node-red;
+
+** Struktura wiadomości w systemie node-red - definiowanie wiadomości jako obiektów JavaScript;
+1. Przedstawienie typów pól komunikatów;
+2. Konwersja między formatem JSON a obiektami JavaScript;
+** Zapis komunikatów w pamięci środowiska: pamięci/obszaru: flow, global, local;
+** Budowa diagramów i przesyłanie komunikatów - elementarne bloki modułu 'common';
+1. Przykład cyklicznego wyzwalania komunikatów;
+2. Zadania - generowanie dokumentu JSON, ciągu znaków, liczby, obiektu JSON, wykorzystanie wyrażenia JSONata (funkcja $random()) - bloki: inject, debug;
+3. Wymiana komunikatów między przepływami (programami - zakładkami);
+** Modyfikacja komunikatów i sterowanie przepływem - bloki 'function';
+1. Przykład warunkowego wykonywania kodu - blok switch, change, function;
+2. Zadania - warunkowe wykonywanie kodu - bloki switch, change, template;
+** Zadania do samodzielnego wykonania:
+1. ...
+
+* 03 Przetwarzanie obiektów JSON. Język wyrażeń JSONata;
+
+** Format tekstowej wymiany danych - JSON i jego odniesienie do obiektów JavaScript - rozróżnienie serializacja vs przechowywanie w pamięci; Reprezentacja obiektu JSON (Javascript) w JSONata;
+** Przedstawienie elementarnych cech języka przetwarzania obiektów JAVAScript - JSONata; Blok kodu, zmienne, funkcje, operacje warunkowe;
+** Iteracje - przetwarzanie obiektów w pętli - funkcja map();
+** Filtracja obiektów: - funkcja filter();
+** Przykłady przetwarzania wiadomości w node-red:
+1. Generowanie komunikatu tekstowego 'JSON' - pole tekstowe dokumentu JSON i konwersja do obiektu JS;
+2. Generowanie komunikatu stanowiącego obiekt JS - pola i wartości - pole wyrażenia JSONata; Przykłady skomplikowanych, zagnieździonych obiektów/komunikatów JS;
+3. Diagram przepływu z blokiem 'Change' zmieniającym pola wiadomości;
+** Format daty i czasu w obiektach JS i ich reprezentacja w JSON;
+** Przetwarzanie obiektów reprezentujących datę i czas: funkcje toMillis() i fromMillis;
+** Zadania do samodzielnego wykonania
+1. ...
+
+* 04 Projekt i konstrukcja interfejsu HMI w środowisku node-red;
+** Panel wizualizacji DashBoard - przygotowanie do wizualizacji;
+** Bloki/elementy funkcjonale wizualizacji;
+*** Przycisk/Button - paleta przycisków
+*** Lampka led
+*** Rozmieszczenie elementów
+*** Przełącznik/Switch
+*** Lista wybory/Drop Down Menu
+*** Prezentacja wartości lub tekstu
+**** Stosowanie bloku Template
+*** Pobieranie danych - Formularz/Form
+*** Wskaźniki wartości - wyświetlacze/Gauge
+*** Wykresy podstawowe/Chart
+*** Wykresy i zaawansowane przetwarzanie danych
+*** Komunikaty
+
+* 05 Wymiana danych z urządzeniami sieci przemysłowej - standard OPC UA;
